@@ -109,10 +109,10 @@ Baby.prototype.play = function() {
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. in global scope, including inside of functions in global scope, `this` will return the window object (which contains many basic browser and document methods and values including alert(), width of the window, etc)
+  2. when a function is invoked on an object (myObj.myFunc()) `this` in the function will refer to the object (myObj)
+  3. when a `new` instance of a function is created, this refers to the specific instance
+  4. when using the call() or apply() methods, `this` can be explicitly specified as an argument in those methods (insert any object as the first argument and it will be `this`)
 */
 
 
