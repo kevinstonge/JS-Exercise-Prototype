@@ -39,8 +39,18 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name,age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+}
+Person.prototype.eat = function(food) {
+  if (this.stomach.length==10) { return; }
+  this.stomach.push(food);
+}
+Person.prototype.poop = function() { this.stomach = []; }
+Person.prototype.toString = function() { 
+  return `${this.name}, ${this.age}`;
 }
 
 /*
@@ -57,8 +67,24 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+}
 
+Car.prototype.fill = function(gallonsOfFuel) {
+  this.tank += gallonsOfFuel;
+}
+Car.prototype.drive = function(distance) {
+  let overage = (this.tank * this.milesPerGallon) - distance;
+  if (overage < 0) {
+    this.odometer += this.tank * this.milesPerGallon;
+    this.tank = 0;
+    return `I ran out of fuel at ${this.odometer} miles`;
+  }
+  else { this.odometer += distance; this.tank -= distance/this.milesPerGallon }
 }
 
 /*
@@ -68,18 +94,25 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age, favoriteToy)
+  this.name = name;
+  this.age = age;
+  this.favoriteToy = favoriteToy;
+}
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`;
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. in global scope, including inside of functions in global scope, `this` will return the window object (which contains many basic browser and document methods and values including alert(), width of the window, etc)
+  2. when a function is invoked on an object (myObj.myFunc()) `this` in the function will refer to the object (myObj)
+  3. when a `new` instance of a function is created, this refers to the specific instance
+  4. when using the call() or apply() methods, `this` can be explicitly specified as an argument in those methods (insert any object as the first argument and it will be `this`)
 */
 
 
